@@ -28,7 +28,7 @@ public class MatriculasData {
            
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
            
-            statement.setInt(1, matriculas.getPersonas().getIdpersona());
+            statement.setInt(1, matriculas.getPersonas().getIdpersonas());
            
             statement.setInt(2, matriculas.getCursos().getIdcursos());
       
@@ -105,7 +105,7 @@ public class MatriculasData {
     
         PersonasData ad=new PersonasData(conexion);
         
-        return ad.buscarPersonas(id);
+        return ad.buscarPersonasPorId(id);
         
     }
     
@@ -113,7 +113,7 @@ public class MatriculasData {
     
         CursosData ad = new CursosData(conexion);
         
-        return ad.buscarCursos(id);
+        return ad.buscarCursoPorID(id);
         
     }
 
