@@ -114,7 +114,7 @@ public class CursosData {
     
         PersonasData ad = new PersonasData(conexion);
         
-        return ad.buscarPersonaPorId(id);
+        return ad.buscarPersonasPorId(id);
         
     }
     
