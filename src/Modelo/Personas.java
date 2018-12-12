@@ -1,15 +1,13 @@
-
 package Modelo;
 
-
 public class Personas {
-    private int idpersonas =-1;
+    private int idpersonas = -1;
     private String nombre;
     private String dni;
     private String celular;
     private boolean habilitado;
     private boolean activo;
-
+//contrutores
     public Personas(int idpersonas, String nombre, String dni, String celular, boolean habilitado, boolean activo) {
         this.idpersonas = idpersonas;
         this.nombre = nombre;
@@ -20,17 +18,18 @@ public class Personas {
     }
 
     public Personas(String nombre, String dni, String celular, boolean habilitado, boolean activo) {
-        this.idpersonas =-1;
+        this.idpersonas = -1;
         this.nombre = nombre;
         this.dni = dni;
         this.celular = celular;
         this.habilitado = habilitado;
         this.activo = activo;
     }
-     public Personas() {
-        this.idpersonas =-1;
+    
+    public Personas() {
+        this.idpersonas = -1;
     }
-
+//GET SET
     public int getIdpersonas() {
         return idpersonas;
     }
@@ -75,14 +74,8 @@ public class Personas {
         return activo;
     }
 
-    
-    
-    
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-     
-    
-    
-    //gfgfg
+        
 }

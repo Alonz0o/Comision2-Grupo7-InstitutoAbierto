@@ -1,7 +1,6 @@
-
 package Modelo;
 
-public class Cursos {
+public class Cursos {    
     private int idcursos = -1;
     private Personas personas;
     private String nombre;
@@ -10,7 +9,7 @@ public class Cursos {
     private int cupomaximo;
     private boolean activo;
     private boolean habilitado;
-
+//modificar
     public Cursos(int idcursos, Personas personas, String nombre, String descripcion, double costo, int cupomaximo, boolean activo, boolean habilitado) {
         this.idcursos = idcursos;
         this.personas = personas;
@@ -23,7 +22,7 @@ public class Cursos {
     }
 
     public Cursos(Personas personas, String nombre, String descripcion, double costo, int cupomaximo, boolean activo, boolean habilitado) {
-        this.idcursos = -1 ;       
+        this.idcursos = -1;
         this.personas = personas;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -32,8 +31,9 @@ public class Cursos {
         this.activo = activo;
         this.habilitado = habilitado;
     }
-     public Cursos() {
-        this.idcursos = -1 ;       
+    
+    public Cursos() {
+        this.idcursos = -1;
     }
 
     public int getIdcursos() {
@@ -100,10 +100,6 @@ public class Cursos {
         this.habilitado = habilitado;
     }
     
-    
-    
-    
-   
     
     
 }

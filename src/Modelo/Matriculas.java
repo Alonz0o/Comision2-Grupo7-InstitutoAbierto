@@ -8,13 +8,15 @@ public class Matriculas {
     private Cursos cursos;
     private Date fechaalta;
     private double costo;
+    private boolean activo;
 //Se utiliza para actualizar
-    public Matriculas(int idmatriculas, Personas personas, Cursos cursos, Date fechaalta, double costo) {
+    public Matriculas(int idmatriculas, Personas personas, Cursos cursos, Date fechaalta, double costo, boolean activo) {
         this.idmatriculas = idmatriculas;
         this.personas = personas;
         this.cursos = cursos;
         this.fechaalta = fechaalta;
         this.costo = costo;
+        this.activo = activo;
     }
 //Se utiliza cuando se va a guardar    
     public Matriculas(Personas personas, Cursos cursos, Date fechaalta, double costo) {
@@ -67,6 +69,14 @@ public class Matriculas {
 
     public void setCosto(double costo) {
         this.costo = costo;
+    }
+
+    public boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
     
     

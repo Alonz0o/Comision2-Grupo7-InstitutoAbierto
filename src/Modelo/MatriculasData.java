@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import Modelo.CursosData;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MatriculasData {
     private Connection connection = null;
@@ -24,7 +26,7 @@ public class MatriculasData {
         
         try{
           
-            String sql = "INSERT INTO matriculas (idpersona, idcursos, fechaalta, costo) VALUES ( ?, ?, ?, ?);";
+            String sql = "INSERT INTO matriculas (idpersonas, idcursos, fechaalta, costo) VALUES ( ?, ?, ?, ?);";
            
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
            
@@ -39,30 +41,26 @@ public class MatriculasData {
             statement.executeUpdate();
             
             ResultSet rs = statement.getGeneratedKeys();
-            
-            if (rs.next()) {
-                matriculas.setIdmatriculas(rs.getInt(1));
-            } else {
-                System.out.println("No se pudo obtener el ID luego de insertar una Matricula");
-            }
+                                             
             statement.close();
     
         }catch (SQLException ex) {
-            System.out.println("Error al insertar un Natricula: " + ex.getMessage());
+            System.out.println("Error al insertar un Matricula: " + ex.getMessage());
         }
     }
     
     public void actualizarMatricula(Matriculas matriculas){   
         try {
             
-            String sql = "UPDATE matriculas SET idpersonas = ?, idcursos = ? , fechaalta =?, costo = ? WHERE idmatriculas = ?;";
+            String sql = "UPDATE matriculas SET idpersonas = ?, idcursos = ? , fechaalta =?, costo = ?, activo = ? WHERE idmatriculas = ?;";
 
             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            statement.setInt(1, matriculas.getPersonas().getIdpersonas());
+            statement.setInt(1, matriculas.getPersonas().getIdpersonas());           
             statement.setInt(2, matriculas.getCursos().getIdcursos());
             statement.setDate(3, matriculas.getFechaalta());
             statement.setDouble(4, matriculas.getCosto());
-            statement.setInt(5, matriculas.getIdmatriculas());            
+            statement.setBoolean(5, matriculas.getActivo()); 
+            statement.setInt(6, matriculas.getIdmatriculas());              
             statement.executeUpdate();
             statement.close();
     
@@ -85,7 +83,7 @@ public class MatriculasData {
                matriculas = new Matriculas();
                matriculas.setIdmatriculas(resultSet.getInt("idmatriculas"));
                
-               matriculas.setFechaalta(resultSet.getDate("fecha"));
+               matriculas.setFechaalta(resultSet.getDate("fechaalta"));
                matriculas.setCosto(resultSet.getDouble("costo"));
                
                Personas p = buscarPersona(resultSet.getInt("idpersonas"));
@@ -101,9 +99,43 @@ public class MatriculasData {
         return matriculas;
     } 
     
+    public List <Matriculas> obtenerMatriculas(int id){
+        List <Matriculas> Listamatriculas = new ArrayList<Matriculas>();           
+        try {
+            String sql = "SELECT * FROM matriculas WHERE activo = 1 AND idpersonas = ?;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            
+            ResultSet resultSet = statement.executeQuery();
+            Matriculas matriculas;
+            while(resultSet.next()){               
+                matriculas = new Matriculas();   
+                matriculas.setIdmatriculas(resultSet.getInt("idmatriculas"));
+                
+                Personas p = buscarPersona(resultSet.getInt("idpersonas"));
+                matriculas.setPersonas(p);
+                
+                Cursos c = buscarCurso(resultSet.getInt("idcursos"));               
+                matriculas.setCursos(c);
+                                           
+                matriculas.setFechaalta(resultSet.getDate("fechaalta"));
+                matriculas.setCosto(resultSet.getDouble("costo"));
+                
+
+                
+                Listamatriculas.add(matriculas);
+                
+            }      
+            statement.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener los matriculas: " + ex.getMessage());
+        }
+        return Listamatriculas;
+    }
+    
     public Personas buscarPersona(int id){
     
-        PersonasData ad=new PersonasData(conexion);
+        PersonasData ad = new PersonasData(conexion);
         
         return ad.buscarPersonasPorId(id);
         
@@ -113,8 +145,40 @@ public class MatriculasData {
     
         CursosData ad = new CursosData(conexion);
         
-        return ad.buscarCursoPorID(id);
+        return ad.buscarCursosPorID(id);
         
     }
+    public List <Matriculas> obtenerPersonasPorCurso(int id){
+        List <Matriculas> Listamatriculas = new ArrayList<Matriculas>();           
+        try {
+            String sql = "SELECT * FROM matriculas WHERE idcursos = ?;";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+           
+            ResultSet resultSet = statement.executeQuery();
+            Matriculas matriculas;
+            while(resultSet.next()){               
+                matriculas = new Matriculas();   
+                matriculas.setIdmatriculas(resultSet.getInt("idmatriculas"));
+                
+                Personas p = buscarPersona(resultSet.getInt("idpersonas"));
+                matriculas.setPersonas(p);
+                
+                Cursos c = buscarCurso(resultSet.getInt("idcursos"));               
+                matriculas.setCursos(c);
+                                           
+                matriculas.setFechaalta(resultSet.getDate("fechaalta"));
+                matriculas.setCosto(resultSet.getDouble("costo"));
+                
 
+                
+                Listamatriculas.add(matriculas);
+                
+            }      
+            statement.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener los matriculas: " + ex.getMessage());
+        }
+        return Listamatriculas;
+    }
 }
