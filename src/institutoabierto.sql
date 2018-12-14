@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-12-2018 a las 05:24:21
+-- Tiempo de generación: 15-12-2018 a las 00:07:07
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.11
 
@@ -63,7 +63,7 @@ CREATE TABLE `matriculas` (
 CREATE TABLE `personas` (
   `idpersonas` int(11) NOT NULL,
   `nombre` varchar(30) CHARACTER SET utf8 NOT NULL,
-  `dni` varchar(9) CHARACTER SET utf8 NOT NULL,
+  `dni` varchar(8) CHARACTER SET utf8 NOT NULL,
   `celular` varchar(15) CHARACTER SET utf8 NOT NULL,
   `activo` tinyint(1) NOT NULL,
   `habilitado` tinyint(1) NOT NULL
