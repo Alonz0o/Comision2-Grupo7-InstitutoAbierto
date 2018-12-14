@@ -108,6 +108,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         jPanel1.add(btnBuscarPersona);
         btnBuscarPersona.setBounds(450, 88, 30, 31);
 
+        lblNombrePersona.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNombrePersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombrePersona.setText("Nombre");
         lblNombrePersona.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));

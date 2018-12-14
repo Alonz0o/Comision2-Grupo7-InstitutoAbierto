@@ -48,7 +48,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
             cursosData = new CursosData (conexion);
             
             htbNombre = new PlaceHolder(tbNombreCursos, Color.GRAY, Color.BLACK, "Ingrese nombre del curso", false, title, 13);
-            htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13); 
+            htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI del profesor", false, title, 13); 
             htbCosto = new PlaceHolder(tbCosto, Color.GRAY, Color.BLACK, "Ingrese costo del curso", false, title, 13); 
             htbCupo = new PlaceHolder(tbCupoMaximo, Color.GRAY, Color.BLACK, "Ingrese cupo maximo", false, title, 13); 
             htbBuscar = new PlaceHolder(tbBuscar, Color.GRAY, Color.BLACK, "Buscar curso", false, title, 13); 
@@ -144,7 +144,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
         jpFondo.add(jScrollPane2);
         jScrollPane2.setBounds(189, 210, 567, 90);
 
-        btnBuscarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonPersonasBuscar.png"))); // NOI18N
+        btnBuscarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenBuscar.png"))); // NOI18N
         btnBuscarPersona.setToolTipText("Buscar persona autorizada a crear cursos.");
         btnBuscarPersona.setMaximumSize(new java.awt.Dimension(65, 20));
         btnBuscarPersona.setMinimumSize(new java.awt.Dimension(65, 20));
@@ -155,12 +155,12 @@ public class VistaCursos extends javax.swing.JInternalFrame {
             }
         });
         jpFondo.add(btnBuscarPersona);
-        btnBuscarPersona.setBounds(465, 63, 70, 49);
+        btnBuscarPersona.setBounds(480, 70, 30, 30);
 
         tbBuscarPersona.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tbBuscarPersona.setOpaque(false);
         jpFondo.add(tbBuscarPersona);
-        tbBuscarPersona.setBounds(289, 70, 180, 31);
+        tbBuscarPersona.setBounds(289, 69, 200, 30);
 
         lblNombrePersona.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblNombrePersona.setForeground(new java.awt.Color(255, 255, 255));
@@ -168,7 +168,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
         lblNombrePersona.setText("Nombre");
         lblNombrePersona.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jpFondo.add(lblNombrePersona);
-        lblNombrePersona.setBounds(531, 72, 223, 28);
+        lblNombrePersona.setBounds(504, 72, 250, 26);
 
         tbNombreCursos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tbNombreCursos.setOpaque(false);
@@ -252,7 +252,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
 
     private void btnCargarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCargarCursoActionPerformed
          
-        if ("".equals(tbBuscarPersona.getText())|| "Ingrese DNI de la persona".equals(tbBuscarPersona.getText())){
+        if ("".equals(tbBuscarPersona.getText())|| "Ingrese DNI del profesor".equals(tbBuscarPersona.getText())){
             
             JOptionPane.showMessageDialog(null, "Ingrese DNI");
         }
@@ -286,7 +286,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
             cargarTablaCursos("","");
             Limpiar();
             htbNombre = new PlaceHolder(tbNombreCursos, Color.GRAY, Color.BLACK, "Ingrese nombre del curso", false, title, 13);
-            htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13); 
+            htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI del profesor", false, title, 13); 
             htbCosto = new PlaceHolder(tbCosto, Color.GRAY, Color.BLACK, "Ingrese costo del curso", false, title, 13); 
             htbCupo = new PlaceHolder(tbCupoMaximo, Color.GRAY, Color.BLACK, "Ingrese cupo maximo", false, title, 13);
         }

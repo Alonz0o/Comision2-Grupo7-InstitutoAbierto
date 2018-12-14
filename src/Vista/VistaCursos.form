@@ -137,7 +137,7 @@
         <Component class="javax.swing.JButton" name="btnBuscarPersona">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/ImagenesPrincipal/ImagenBotonPersonasBuscar.png"/>
+              <Image iconType="3" name="/ImagenesVistaCursos/ImagenBuscar.png"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Buscar persona autorizada a crear cursos."/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -155,7 +155,7 @@
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="465" y="63" width="70" height="49"/>
+              <AbsoluteConstraints x="480" y="70" width="30" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -166,7 +166,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="289" y="70" width="180" height="31"/>
+              <AbsoluteConstraints x="289" y="69" width="200" height="30"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -188,7 +188,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="531" y="72" width="223" height="28"/>
+              <AbsoluteConstraints x="504" y="72" width="250" height="26"/>
             </Constraint>
           </Constraints>
         </Component>
