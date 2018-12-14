@@ -3,6 +3,7 @@ package Vista;
 import Modelo.Conexion;
 import Modelo.Cursos;
 import Modelo.CursosData;
+import Modelo.Mayuscula;
 import Modelo.Personas;
 import Modelo.PersonasData;
 import Modelo.Render;
@@ -35,11 +36,13 @@ public class VistaCursos extends javax.swing.JInternalFrame {
     private PlaceHolder htbCupo;
     private PlaceHolder htbBuscarPersona;
     private PlaceHolder htbBuscar;
+    private Mayuscula mayus;
 
     public VistaCursos() {
         initComponents();
         this.setLocation(9, 8);
         try {
+            mayus=new Mayuscula();
             conexion = new Conexion("jdbc:mysql://localhost/institutoabierto", "root", "");
             personasData = new PersonasData(conexion);        
             cursosData = new CursosData (conexion);
@@ -169,6 +172,11 @@ public class VistaCursos extends javax.swing.JInternalFrame {
 
         tbNombreCursos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tbNombreCursos.setOpaque(false);
+        tbNombreCursos.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tbNombreCursosFocusLost(evt);
+            }
+        });
         jpFondo.add(tbNombreCursos);
         tbNombreCursos.setBounds(289, 111, 467, 30);
 
@@ -362,13 +370,11 @@ public class VistaCursos extends javax.swing.JInternalFrame {
         if(cbBuscar.getSelectedItem()=="Activos")
         {
             tbBuscar.setEnabled(false);
-            LimpiarTabla();
             cargarTablaCursos("Activos","");
         }
         else if(cbBuscar.getSelectedItem()=="Desactivado")
         {
             tbBuscar.setEnabled(false);
-            LimpiarTabla();
             cargarTablaCursos("Desactivado","");
         }
         else
@@ -379,9 +385,12 @@ public class VistaCursos extends javax.swing.JInternalFrame {
 
     private void tbBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbBuscarKeyReleased
         String seleccionado = (String)cbBuscar.getSelectedItem();
-        LimpiarTabla();
         cargarTablaCursos(seleccionado,tbBuscar.getText());
     }//GEN-LAST:event_tbBuscarKeyReleased
+
+    private void tbNombreCursosFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tbNombreCursosFocusLost
+        tbNombreCursos.setText(mayus.convertir(tbNombreCursos.getText()));
+    }//GEN-LAST:event_tbNombreCursosFocusLost
     
     public void cargarTablaCursos(String seleccionado,String buscar){
         tCursos.setDefaultRenderer(Object.class, new Render());
@@ -483,18 +492,6 @@ public class VistaCursos extends javax.swing.JInternalFrame {
            }
         });      
     }
-    DefaultTableModel temp;
-        void LimpiarTabla(){
-        try{
-            temp = (DefaultTableModel) tCursos.getModel();
-            int a =temp.getRowCount()-1;
-            for(int i=0; i<a; i++)
-                temp.removeRow(0); 
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
-
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPersona;

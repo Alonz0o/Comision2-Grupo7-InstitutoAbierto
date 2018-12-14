@@ -263,13 +263,13 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
         if(cbBuscar.getSelectedItem()=="Activos")
         {
             tbBuscar.setEnabled(false);
-            LimpiarTabla();
+            
             cargarTablaPersonas("Activos","");
         }
         else if(cbBuscar.getSelectedItem()=="Desactivado")
         {
             tbBuscar.setEnabled(false);
-            LimpiarTabla();
+            
             cargarTablaPersonas("Desactivado","");
         }
         else
@@ -280,7 +280,7 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
 
     private void tbBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbBuscarKeyReleased
         String seleccionado = (String)cbBuscar.getSelectedItem();
-        LimpiarTabla();
+       
         cargarTablaPersonas(seleccionado,tbBuscar.getText());
     }//GEN-LAST:event_tbBuscarKeyReleased
     
@@ -336,17 +336,6 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
         tbCelular.setText("");        
     }
     
-        DefaultTableModel temp;
-        void LimpiarTabla(){
-        try{
-            temp = (DefaultTableModel) tPersonas.getModel();
-            int a =temp.getRowCount()-1;
-            for(int i=0; i<a; i++)
-                temp.removeRow(0); 
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
         public void soloLetras(JTextField a)
     {
         a.addKeyListener(new KeyAdapter() {

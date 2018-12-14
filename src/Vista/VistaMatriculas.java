@@ -10,19 +10,25 @@ import Modelo.PersonasData;
 import Modelo.Render;
 import Modelo.TheModel;
 import com.placeholder.PlaceHolder;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
@@ -40,13 +46,21 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         initComponents();
         botonesCursos = new ArrayList<>();
         this.setLocation(9, 8);
-        PlaceHolder htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese Dni", false, title, 13);
+        PlaceHolder htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
+        PlaceHolder htbBuscarCosto = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
+        PlaceHolder htbBuscarSumaTotal = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
         try {
             conexion = new Conexion("jdbc:mysql://localhost/institutoabierto", "root", "");
             personasData = new PersonasData(conexion);        
             cursosData = new CursosData (conexion);
             matriculasData = new MatriculasData(conexion);
-            botonesCursos();           
+            botonesCursos(); 
+            cargarTablaMatriculas(0);
+            soloNumeros(tbBuscarPersona);
+            limitarCaracteres(tbBuscarPersona, 8);
+            JTextFieldDateEditor editor = (JTextFieldDateEditor) dcFecha.getDateEditor();
+            editor.setEditable(false);
+            
             } 
         catch (ClassNotFoundException ex) {
             Logger.getLogger(VistaMatriculas.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,31 +74,26 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        lblNombrePersona = new javax.swing.JLabel();
         btnBuscarPersona = new javax.swing.JButton();
+        lblNombrePersona = new javax.swing.JLabel();
+        btnLimpiar = new javax.swing.JButton();
         tbBuscarPersona = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         pnlBotonesCursos = new javax.swing.JPanel();
-        btnAgregarMatricula = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tMatriculas = new javax.swing.JTable();
-        btnAgregar = new javax.swing.JButton();
+        btnAgregarMatricula = new javax.swing.JButton();
         tbSumaTotal = new javax.swing.JTextField();
         dcFecha = new com.toedter.calendar.JDateChooser();
         tbCostos = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblImagenTotal = new javax.swing.JLabel();
+        lblImagenFecha = new javax.swing.JLabel();
+        lblImagenPizarra = new javax.swing.JLabel();
         lblImagenFondo = new javax.swing.JLabel();
         tbIdCursos = new javax.swing.JTextField();
         tbIdPersona = new javax.swing.JTextField();
 
         jPanel1.setLayout(null);
-
-        lblNombrePersona.setBackground(new java.awt.Color(255, 0, 0));
-        lblNombrePersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNombrePersona.setText("Nombre");
-        lblNombrePersona.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(lblNombrePersona);
-        lblNombrePersona.setBounds(270, 55, 330, 30);
 
         btnBuscarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenBuscar.png"))); // NOI18N
         btnBuscarPersona.setToolTipText("Buscar persona autorizada a crear cursos.");
@@ -97,29 +106,38 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(btnBuscarPersona);
-        btnBuscarPersona.setBounds(230, 55, 30, 30);
+        btnBuscarPersona.setBounds(450, 88, 30, 31);
 
-        tbBuscarPersona.setBackground(new java.awt.Color(204, 204, 255));
+        lblNombrePersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombrePersona.setText("Nombre");
+        lblNombrePersona.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(lblNombrePersona);
+        lblNombrePersona.setBounds(470, 91, 373, 26);
+
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnLimpiar.png"))); // NOI18N
+        btnLimpiar.setEnabled(false);
+        btnLimpiar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnLimpiarA.png"))); // NOI18N
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnLimpiar);
+        btnLimpiar.setBounds(589, 250, 52, 30);
+
         tbBuscarPersona.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tbBuscarPersona.setToolTipText("DNI de la persona.");
         jPanel1.add(tbBuscarPersona);
-        tbBuscarPersona.setBounds(70, 55, 150, 30);
+        tbBuscarPersona.setBounds(165, 88, 290, 30);
 
+        pnlBotonesCursos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         pnlBotonesCursos.setLayout(new java.awt.GridLayout(0, 5));
         jScrollPane3.setViewportView(pnlBotonesCursos);
 
         jPanel1.add(jScrollPane3);
-        jScrollPane3.setBounds(70, 90, 530, 110);
+        jScrollPane3.setBounds(60, 120, 785, 128);
 
-        btnAgregarMatricula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenAgregar.png"))); // NOI18N
-        btnAgregarMatricula.setPreferredSize(new java.awt.Dimension(101, 20));
-        btnAgregarMatricula.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarMatriculaActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnAgregarMatricula);
-        btnAgregarMatricula.setBounds(210, 400, 30, 30);
+        jScrollPane1.setViewportBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         tMatriculas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -129,28 +147,54 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tMatriculas);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(70, 250, 530, 140);
+        jScrollPane1.setBounds(60, 282, 785, 139);
 
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregarMatricula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatriculaGuardar.png"))); // NOI18N
+        btnAgregarMatricula.setEnabled(false);
+        btnAgregarMatricula.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatriculaGuardarA.png"))); // NOI18N
+        btnAgregarMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
+                btnAgregarMatriculaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnAgregar);
-        btnAgregar.setBounds(410, 210, 71, 23);
+        jPanel1.add(btnAgregarMatricula);
+        btnAgregarMatricula.setBounds(533, 250, 52, 30);
+
+        tbSumaTotal.setEditable(false);
+        tbSumaTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbSumaTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tbSumaTotal.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbSumaTotal.setEnabled(false);
+        tbSumaTotal.setOpaque(false);
         jPanel1.add(tbSumaTotal);
-        tbSumaTotal.setBounds(70, 400, 130, 30);
+        tbSumaTotal.setBounds(750, 425, 90, 30);
 
-        dcFecha.setToolTipText("Dia/Mes/Año");
+        dcFecha.setEnabled(false);
         jPanel1.add(dcFecha);
-        dcFecha.setBounds(70, 210, 190, 30);
-        jPanel1.add(tbCostos);
-        tbCostos.setBounds(270, 210, 120, 30);
+        dcFecha.setBounds(140, 250, 220, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alonz0\\Downloads\\Nueva carpeta\\ImagenPizarron.png")); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(10, 10, 880, 470);
+        tbCostos.setEditable(false);
+        tbCostos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbCostos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tbCostos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbCostos.setEnabled(false);
+        jPanel1.add(tbCostos);
+        tbCostos.setBounds(370, 250, 160, 30);
+
+        lblImagenTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alonz0\\Downloads\\Nueva carpeta\\Total.png")); // NOI18N
+        lblImagenTotal.setEnabled(false);
+        jPanel1.add(lblImagenTotal);
+        lblImagenTotal.setBounds(680, 428, 70, 24);
+
+        lblImagenFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImagenFecha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alonz0\\Downloads\\Nueva carpeta\\Fecha _.png")); // NOI18N
+        lblImagenFecha.setEnabled(false);
+        jPanel1.add(lblImagenFecha);
+        lblImagenFecha.setBounds(60, 253, 80, 24);
+
+        lblImagenPizarra.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenPizarron.png"))); // NOI18N
+        jPanel1.add(lblImagenPizarra);
+        lblImagenPizarra.setBounds(23, 0, 880, 500);
 
         lblImagenFondo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblImagenFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenFondo.jpg"))); // NOI18N
@@ -183,23 +227,44 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPersonaActionPerformed
-        Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));
-
-        if(personas!=null){
-            lblNombrePersona.setText(personas.getNombre());
-            tbIdPersona.setText(personas.getIdpersonas()+"");
-            cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Error profesor no encontrado: ");
-        }    
+        if(tbBuscarPersona.getText().equals("Ingrese DNI de la persona")){
+            JOptionPane.showMessageDialog(null, "Ingrese DNI");        
+        }                   
+        else{            
+            Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));
+            if(personas!=null)
+            {
+               lblNombrePersona.setText(personas.getNombre());
+               tbIdPersona.setText(personas.getIdpersonas()+"");
+               cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));
+               activa_boton(true,true,true,true,true,true,true);
+            }
+            else{
+            
+            JOptionPane.showMessageDialog(null, "DNI NO ENCONTRADO");
+            activa_boton(false,false,false,false,false,false,false);
+            
+            cargarTablaMatriculas(0);          
+        }      
+        }        
     }//GEN-LAST:event_btnBuscarPersonaActionPerformed
+    public void activa_boton(boolean a1, boolean a2, boolean a3, boolean a4, boolean a5, boolean a6, boolean a7){
+        btnAgregarMatricula.setEnabled(a1);
+        dcFecha.setEnabled(a2);
+        lblImagenFecha.setEnabled(a3);
+        lblImagenTotal.setEnabled(a4);
+        btnLimpiar.setEnabled(a5);
+        tbSumaTotal.setEnabled(a6);
+        tbCostos.setEnabled(a7);
+    } 
+  
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        Limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnAgregarMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMatriculaActionPerformed
- 
-    }//GEN-LAST:event_btnAgregarMatriculaActionPerformed
-
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        if(tbIdCursos.getText().equals("")){JOptionPane.showMessageDialog(null, "Seleccione curso");}
+        else{
         Personas personas = personasData.buscarPersonasPorId(Integer.parseInt(tbIdPersona.getText()));      
         Cursos cursos = cursosData.buscarCursosPorID(Integer.parseInt(tbIdCursos.getText()));
         try {
@@ -229,12 +294,12 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al leer datos de la tabla: " + e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
-        }               
-    }//GEN-LAST:event_btnAgregarActionPerformed
+        }
+    }
+    }//GEN-LAST:event_btnAgregarMatriculaActionPerformed
 
     private void tMatriculasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tMatriculasMousePressed
-        int filaSeleccionada = this.tMatriculas.getSelectedRow();                         
-        try {
+            try {
             int column = tMatriculas.getColumnModel().getColumnIndexAtX(evt.getX());
             int row = evt.getY()/tMatriculas.getRowHeight();
             if(row < tMatriculas.getRowCount() && row >= 0 && column < tMatriculas.getColumnCount() && column >= 0){
@@ -243,12 +308,11 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                 ((JButton)value).doClick();
                 JButton boton = (JButton) value;
 
-                if(boton.getText().equals("Eliminar")){
+                if(boton.getToolTipText().equals("Eliminar")){
                     int resp=JOptionPane.showConfirmDialog(null, "Desea eliminar este registro?", "Confirmar", JOptionPane.OK_CANCEL_OPTION);
                     if (JOptionPane.OK_OPTION == resp)
                     {
                         int id = Integer.parseInt(boton.getName());
-                        System.out.println(id);
                         Matriculas matriculas = matriculasData.buscarMatriculaPorID(id);
             
                         matriculas.setActivo(false);
@@ -267,8 +331,8 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Error al leer datos de la tabla: " + e.getMessage(), "Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_tMatriculasMousePressed
-private void botonesCursos()
-    {
+    
+    private void botonesCursos(){
         pnlBotonesCursos.removeAll();
         listaCursos =(ArrayList)cursosData.obtenerCursos("","");
         
@@ -298,8 +362,9 @@ private void botonesCursos()
            
         }
     }
-public void cargarTablaMatriculas(int id){
-        LimpiarTabla();
+   
+    public void cargarTablaMatriculas(int id){
+        
         double total = 0;
         tMatriculas.setDefaultRenderer(Object.class, new Render());
         DefaultTableModel defaulttable = new DefaultTableModel(){
@@ -310,11 +375,13 @@ public void cargarTablaMatriculas(int id){
         }; 
         listaMatriculas =(ArrayList) matriculasData.obtenerMatriculas(id);
         
-        String[] columnName = {"Id","Nombre","Fecha","Costo","Eliminar"};
+        String[] columnName = {"Id","Nombre","Fecha","Costo",""};
         Object[][] rows = new Object[listaMatriculas.size()][5];
         for(int i = 0; i < listaMatriculas.size(); i++)
         {            
-            JButton boton2 = new JButton("Eliminar");           
+            JButton boton2 = new JButton("");
+            boton2.setToolTipText("Eliminar");
+            boton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesModificarCursos/ImagenBorrar.png")));
             boton2.setName(listaMatriculas.get(i).getIdmatriculas()+"");
             rows[i][0] = listaMatriculas.get(i).getIdmatriculas();
             rows[i][1] = listaMatriculas.get(i).getCursos().getNombre();
@@ -330,29 +397,81 @@ public void cargarTablaMatriculas(int id){
         tMatriculas.getColumnModel().getColumn(0).setMaxWidth(0);
         tMatriculas.getColumnModel().getColumn(0).setMinWidth(0);
         tMatriculas.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tMatriculas.getColumnModel().getColumn(4).setMaxWidth(30);  
        
     }
-        DefaultTableModel temp;
-        void LimpiarTabla(){
-        try{
-            temp = (DefaultTableModel) tMatriculas.getModel();
-            int a =temp.getRowCount()-1;
-            for(int i=0; i<a; i++)
-                temp.removeRow(0); 
-        }catch(Exception e){
-            System.out.println(e);
-        }
+    public void Limpiar(){
+        
+        tbBuscarPersona.setText("");
+        htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
+        tbCostos.setText("");
+        tbSumaTotal.setText("");
+        lblNombrePersona.setText("");
+        cargarTablaMatriculas(0);
+        activa_boton(false,false,false,false,false,false,false);
+        dcFecha.setDateFormatString("");    
+    }
+    public void soloLetras(JTextField a){
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e)
+            {
+                char c=e.getKeyChar();
+                if(Character.isDigit(c))
+                {
+                    e.consume();
+                }
+            }
+        });
+    }
+    public void soloNumeros(JTextField a){
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                char c=e.getKeyChar();
+                if(!Character.isDigit(c))
+                {
+                    e.consume();
+                }
+            }
+        });
+        
+    }
+    public void soloFecha(JDateChooser a){
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                char c=e.getKeyChar();
+                if(!Character.isDigit(c))
+                {
+                    e.consume();
+                }
+            }
+        });
+        
+    }
+    public void limitarCaracteres(JTextField campo,int cantidad){
+        campo.addKeyListener(new KeyAdapter(){
+           public void keyTyped(KeyEvent e)
+           { 
+               char c= e.getKeyChar();
+               int tamaño=campo.getText().length();
+               if(tamaño>=cantidad)
+               {
+                   e.consume();
+               }
+           }
+        });      
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAgregarMatricula;
     private javax.swing.JButton btnBuscarPersona;
+    private javax.swing.JButton btnLimpiar;
     private com.toedter.calendar.JDateChooser dcFecha;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblImagenFecha;
     private javax.swing.JLabel lblImagenFondo;
+    private javax.swing.JLabel lblImagenPizarra;
+    private javax.swing.JLabel lblImagenTotal;
     private javax.swing.JLabel lblNombrePersona;
     private javax.swing.JPanel pnlBotonesCursos;
     private javax.swing.JTable tMatriculas;

@@ -69,6 +69,7 @@ public class Principal extends javax.swing.JFrame {
         Escritorio.getAccessibleContext().setAccessibleDescription("");
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonSalirPrincipal.png"))); // NOI18N
+        btnSalir.setToolTipText("Salir.");
         btnSalir.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonSalirPrincipalA.png"))); // NOI18N
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,6 +93,7 @@ public class Principal extends javax.swing.JFrame {
         btnCursos.setBounds(2, 60, 70, 49);
 
         btnInformes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonInformes.png"))); // NOI18N
+        btnInformes.setToolTipText("Informes.");
         btnInformes.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonInformesA.png"))); // NOI18N
         btnInformes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
