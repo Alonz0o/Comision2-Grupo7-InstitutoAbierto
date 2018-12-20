@@ -117,6 +117,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/ImagenesModificarCursos/ImagenModificar.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Modificar curso."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
@@ -132,6 +133,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/ImagenesVistaCursos/ImagenBuscar.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Buscar profesor para este curso."/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[65, 20]"/>
                 </Property>
@@ -188,6 +190,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/ImagenesModificarCursos/ImagenApagado.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Salir."/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalirActionPerformed"/>

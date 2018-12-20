@@ -9,9 +9,13 @@ import Modelo.PersonasData;
 import static Vista.Principal.Escritorio;
 import com.placeholder.PlaceHolder;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 public class ModificarCursos extends javax.swing.JInternalFrame {
     private CursosData cursosData;
     private PersonasData personasData;
@@ -26,7 +30,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
             PlaceHolder htbNombre = new PlaceHolder(tbNombreCursoModificar, Color.GRAY, Color.BLACK, "Ingrese nuevo nombre", false, title, 13);
             PlaceHolder htbCosto = new PlaceHolder(tbCostoCursoModificar, Color.GRAY, Color.BLACK, "Ingrese nuevo costo", false, title, 13);
             PlaceHolder htbCupoMaximo = new PlaceHolder(tbCupoMaximoCursoModificar, Color.GRAY, Color.BLACK, "Ingrese nuevo cupo", false, title, 13); 
-            PlaceHolder htbDNI = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI", false, title, 13); 
+            PlaceHolder htbDNI = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI del profesor", false, title, 13); 
    
             
             Cursos cursos = cursosData.buscarCursosPorID(Integer.parseInt(idCurso));                   
@@ -39,6 +43,14 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
             tbCostoCursoModificar.setText(cursos.getCosto()+"");
             tbCupoMaximoCursoModificar.setText(cursos.getCupomaximo()+"");
             taDescripcionCursoModificar.setText(cursos.getDescripcion());
+            limitarCaracteres(tbBuscarPersona, 8);
+            limitarCaracteres(tbNombreCursoModificar, 30);
+            limitarCaracteresTA(taDescripcionCursoModificar, 200);
+            limitarCaracteres(tbCostoCursoModificar, 7);
+            limitarCaracteres(tbCupoMaximoCursoModificar, 10);
+            soloNumeros(tbBuscarPersona);
+            soloNumeros(tbCostoCursoModificar);
+            soloNumeros(tbCupoMaximoCursoModificar);
         } 
         catch (ClassNotFoundException ex) {
             Logger.getLogger(ModificarCursos.class.getName()).log(Level.SEVERE, null, ex);
@@ -95,6 +107,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
         pnlDatos.add(lblDescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 260, 20));
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesModificarCursos/ImagenModificar.png"))); // NOI18N
+        btnModificar.setToolTipText("Modificar curso.");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
@@ -103,6 +116,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
         pnlDatos.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, 30, 30));
 
         btnBuscarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenBuscar.png"))); // NOI18N
+        btnBuscarPersona.setToolTipText("Buscar profesor para este curso.");
         btnBuscarPersona.setMaximumSize(new java.awt.Dimension(65, 20));
         btnBuscarPersona.setMinimumSize(new java.awt.Dimension(65, 20));
         btnBuscarPersona.setPreferredSize(new java.awt.Dimension(65, 20));
@@ -124,6 +138,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
         pnlDatos.add(lblNombrePersona, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 260, -1));
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesModificarCursos/ImagenApagado.png"))); // NOI18N
+        btnSalir.setToolTipText("Salir.");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
@@ -158,7 +173,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
                                               
-        if ("".equals(tbBuscarPersona.getText())|| "Ingrese DNI".equals(tbBuscarPersona.getText())){
+        if ("".equals(tbBuscarPersona.getText())|| "Ingrese DNI del profesor".equals(tbBuscarPersona.getText())){
             
             JOptionPane.showMessageDialog(null, "Ingrese DNI");
         }
@@ -178,7 +193,9 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
             
             JOptionPane.showMessageDialog(null, "Ingrese descripcion");
         }
-        else{
+        else{  
+                Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));  
+                if(personas!=null){
                 String nombre = tbNombreCursoModificar.getText();
                 String descripcion = taDescripcionCursoModificar.getText();
                 double costo = Double.parseDouble(tbCostoCursoModificar.getText());
@@ -186,31 +203,86 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
                 boolean activo = true;
                 boolean habilitado = true;
                 int id = Integer.parseInt(lblID.getText());                              
-                Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));  
+                
                 
                 Cursos curso = new Cursos(id,personas,nombre,descripcion,costo,cupomaximo,activo,habilitado);
                 cursosData.modificarCurso(curso);
+                
                 Escritorio.removeAll();
                 Escritorio.repaint();
-                VistaCursos vistacursos2 = new VistaCursos();
-                vistacursos2.setVisible(true);
-                Escritorio.add(vistacursos2);
-                Escritorio.moveToFront(vistacursos2);              
+                VistaCursos vistacursos = new VistaCursos();
+                vistacursos.setVisible(true);
+                Escritorio.add(vistacursos);
+                Escritorio.moveToFront(vistacursos);  
+                             }
+                     else{JOptionPane.showMessageDialog(null, "DNI NO ENCONTRADO");
+                     activa_boton(false,false,false,false,false,false);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
-
+    }
     private void btnBuscarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPersonaActionPerformed
-        Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));
-
-        if(personas!=null){
-            lblNombrePersona.setText(personas.getNombre());
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Error profesor no encontrado: ");
-        }
+        if(tbBuscarPersona.getText().equals("Ingrese DNI del profesor")){
+            JOptionPane.showMessageDialog(null, "DNI Del profesor");
+            }                   
+        else{            
+            Personas personas = personasData.buscarPersonasPorDni(Integer.parseInt(tbBuscarPersona.getText()));
+            if(personas!=null)
+            {
+               lblNombrePersona.setText(personas.getNombre());
+               activa_boton(true,true,true,true,true,true);
+            }
+            else{JOptionPane.showMessageDialog(null, "DNI NO ENCONTRADO");
+            lblNombrePersona.setText("Profesor no encontrado");
+            activa_boton(false,false,false,false,false,false);}
+        }       
     }//GEN-LAST:event_btnBuscarPersonaActionPerformed
 
-    
+    public void soloNumeros(JTextField a){
+        a.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e){
+                char c=e.getKeyChar();
+                if(!Character.isDigit(c))
+                {
+                    e.consume();
+                }
+            }
+        });
+        
+    }
+    public void limitarCaracteres(JTextField campo,int cantidad){
+        campo.addKeyListener(new KeyAdapter(){
+           public void keyTyped(KeyEvent e)
+           { 
+               char c= e.getKeyChar();
+               int tamaño=campo.getText().length();
+               if(tamaño>=cantidad)
+               {
+                   e.consume();
+               }
+           }
+        });      
+    }
+    public void limitarCaracteresTA(JTextArea campo,int cantidad){
+        campo.addKeyListener(new KeyAdapter(){
+           public void keyTyped(KeyEvent e)
+           { 
+               char c= e.getKeyChar();
+               int tamaño=campo.getText().length();
+               if(tamaño>=cantidad)
+               {
+                   e.consume();
+               }
+           }
+        });      
+    }
+    public void activa_boton(boolean a1, boolean a2, boolean a3, boolean a4, boolean a5,boolean a6){
+        tbNombreCursoModificar.setEnabled(a1);
+        tbCupoMaximoCursoModificar.setEnabled(a2);
+        tbCostoCursoModificar.setEnabled(a3);
+        lblNombrePersona.setEnabled(a4);
+        btnModificar.setEnabled(a5);
+        taDescripcionCursoModificar.setEnabled(a6);           
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarPersona;

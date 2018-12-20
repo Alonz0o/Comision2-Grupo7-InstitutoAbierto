@@ -44,7 +44,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ImagenesPrincipal/ImgBtnMatricula.png"/>
             </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Agregar, modificar y eliminar matriculas."/>
+            <Property name="toolTipText" type="java.lang.String" value="Agregar y eliminar matriculas."/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/ImagenesPrincipal/ImgBtnMatriculaA.png"/>

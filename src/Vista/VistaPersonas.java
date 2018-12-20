@@ -119,15 +119,15 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
         tbCelular.setOpaque(false);
         getContentPane().add(tbCelular, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 160, 446, 30));
 
-        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonPersonasAgregar.png"))); // NOI18N
+        btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnPersonaAgregar.png"))); // NOI18N
         btnAgregar.setFocusPainted(false);
-        btnAgregar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImagenBotonPersonasAgregarA.png"))); // NOI18N
+        btnAgregar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnPersonaAgregarA.png"))); // NOI18N
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 197, 70, 49));
+        getContentPane().add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 210, 52, 30));
 
         cbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nombre", "DNI", "Celular", "Activos", "Desactivado" }));
         cbBuscar.setOpaque(false);

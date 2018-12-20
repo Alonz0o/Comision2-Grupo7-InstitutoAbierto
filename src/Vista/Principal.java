@@ -27,7 +27,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         btnMatriculas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatricula.png"))); // NOI18N
-        btnMatriculas.setToolTipText("Agregar, modificar y eliminar matriculas.");
+        btnMatriculas.setToolTipText("Agregar y eliminar matriculas.");
         btnMatriculas.setFocusPainted(false);
         btnMatriculas.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatriculaA.png"))); // NOI18N
         btnMatriculas.addActionListener(new java.awt.event.ActionListener() {

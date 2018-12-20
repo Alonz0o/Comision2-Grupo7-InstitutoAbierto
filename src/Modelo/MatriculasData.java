@@ -148,10 +148,11 @@ public class MatriculasData {
         return ad.buscarCursosPorID(id);
         
     }
+    
     public List <Matriculas> obtenerPersonasPorCurso(int id){
         List <Matriculas> Listamatriculas = new ArrayList<Matriculas>();           
         try {
-            String sql = "SELECT * FROM matriculas WHERE idcursos = ?;";
+            String sql = "SELECT * FROM matriculas WHERE idcursos = ? and activo = 1;";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
            
@@ -180,5 +181,26 @@ public class MatriculasData {
             System.out.println("Error al obtener los matriculas: " + ex.getMessage());
         }
         return Listamatriculas;
+    }
+    
+    public Matriculas buscarcantidad(int id){
+        Matriculas matriculas = null;
+    try {           
+            String sql = "SELECT COUNT(m.idcursos) AS contador FROM matriculas m, cursos c, personas p "
+                    + "WHERE m.idcursos = c.idcursos AND m.idpersonas = p.idpersonas AND m.idcursos = ? AND m.activo = 1;";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, id);
+           
+            ResultSet resultSet=statement.executeQuery();
+            
+            while(resultSet.next()){
+               matriculas = new Matriculas();
+               matriculas.setCantidad(resultSet.getInt("contador"));
+            }           
+            statement.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar una matricula: " + ex.getMessage());
+        }        
+        return matriculas;
     }
 }

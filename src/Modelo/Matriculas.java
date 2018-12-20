@@ -9,6 +9,7 @@ public class Matriculas {
     private Date fechaalta;
     private double costo;
     private boolean activo;
+    private int cantidad;
 //Se utiliza para actualizar
     public Matriculas(int idmatriculas, Personas personas, Cursos cursos, Date fechaalta, double costo, boolean activo) {
         this.idmatriculas = idmatriculas;
@@ -77,6 +78,14 @@ public class Matriculas {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
     
     

@@ -47,8 +47,6 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         botonesCursos = new ArrayList<>();
         this.setLocation(9, 8);
         PlaceHolder htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
-        PlaceHolder htbBuscarCosto = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
-        PlaceHolder htbBuscarSumaTotal = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI de la persona", false, title, 13);
         try {
             conexion = new Conexion("jdbc:mysql://localhost/institutoabierto", "root", "");
             personasData = new PersonasData(conexion);        
@@ -60,7 +58,8 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             limitarCaracteres(tbBuscarPersona, 8);
             JTextFieldDateEditor editor = (JTextFieldDateEditor) dcFecha.getDateEditor();
             editor.setEditable(false);
-            
+            editor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+          
             } 
         catch (ClassNotFoundException ex) {
             Logger.getLogger(VistaMatriculas.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,7 +85,10 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         tbSumaTotal = new javax.swing.JTextField();
         dcFecha = new com.toedter.calendar.JDateChooser();
         tbCostos = new javax.swing.JTextField();
+        tbCupoDisponible = new javax.swing.JTextField();
+        lblCupoDisponibles = new javax.swing.JLabel();
         lblImagenTotal = new javax.swing.JLabel();
+        lblImagenCosto = new javax.swing.JLabel();
         lblImagenFecha = new javax.swing.JLabel();
         lblImagenPizarra = new javax.swing.JLabel();
         lblImagenFondo = new javax.swing.JLabel();
@@ -96,10 +98,8 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         jPanel1.setLayout(null);
 
         btnBuscarPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenBuscar.png"))); // NOI18N
-        btnBuscarPersona.setToolTipText("Buscar persona autorizada a crear cursos.");
-        btnBuscarPersona.setMaximumSize(new java.awt.Dimension(65, 20));
-        btnBuscarPersona.setMinimumSize(new java.awt.Dimension(65, 20));
-        btnBuscarPersona.setPreferredSize(new java.awt.Dimension(65, 20));
+        btnBuscarPersona.setToolTipText("Buscar persona.");
+        btnBuscarPersona.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenBuscarA.png"))); // NOI18N
         btnBuscarPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarPersonaActionPerformed(evt);
@@ -109,22 +109,24 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         btnBuscarPersona.setBounds(450, 88, 30, 31);
 
         lblNombrePersona.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblNombrePersona.setForeground(new java.awt.Color(255, 255, 255));
         lblNombrePersona.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNombrePersona.setText("Nombre");
         lblNombrePersona.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(lblNombrePersona);
         lblNombrePersona.setBounds(470, 91, 373, 26);
 
-        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnLimpiar.png"))); // NOI18N
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenLimpiar.png"))); // NOI18N
+        btnLimpiar.setToolTipText("Limpiar todo.");
         btnLimpiar.setEnabled(false);
-        btnLimpiar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnLimpiarA.png"))); // NOI18N
+        btnLimpiar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenLimpiarA.png"))); // NOI18N
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
             }
         });
         jPanel1.add(btnLimpiar);
-        btnLimpiar.setBounds(589, 250, 52, 30);
+        btnLimpiar.setBounds(810, 250, 32, 30);
 
         tbBuscarPersona.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tbBuscarPersona.setToolTipText("DNI de la persona.");
@@ -151,6 +153,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         jScrollPane1.setBounds(60, 282, 785, 139);
 
         btnAgregarMatricula.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatriculaGuardar.png"))); // NOI18N
+        btnAgregarMatricula.setToolTipText("Guardar una matricula.");
         btnAgregarMatricula.setEnabled(false);
         btnAgregarMatricula.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesPrincipal/ImgBtnMatriculaGuardarA.png"))); // NOI18N
         btnAgregarMatricula.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +162,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(btnAgregarMatricula);
-        btnAgregarMatricula.setBounds(533, 250, 52, 30);
+        btnAgregarMatricula.setBounds(756, 250, 52, 30);
 
         tbSumaTotal.setEditable(false);
         tbSumaTotal.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -172,23 +175,41 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
 
         dcFecha.setEnabled(false);
         jPanel1.add(dcFecha);
-        dcFecha.setBounds(140, 250, 220, 30);
+        dcFecha.setBounds(138, 250, 170, 30);
 
         tbCostos.setEditable(false);
         tbCostos.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tbCostos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tbCostos.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbCostos.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 153, 51), 1, true));
         tbCostos.setEnabled(false);
         jPanel1.add(tbCostos);
-        tbCostos.setBounds(370, 250, 160, 30);
+        tbCostos.setBounds(375, 250, 130, 30);
 
-        lblImagenTotal.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alonz0\\Downloads\\Nueva carpeta\\Total.png")); // NOI18N
+        tbCupoDisponible.setEditable(false);
+        tbCupoDisponible.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tbCupoDisponible.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tbCupoDisponible.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbCupoDisponible.setEnabled(false);
+        jPanel1.add(tbCupoDisponible);
+        tbCupoDisponible.setBounds(664, 250, 90, 30);
+
+        lblCupoDisponibles.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenDisponibilidad.png"))); // NOI18N
+        lblCupoDisponibles.setEnabled(false);
+        jPanel1.add(lblCupoDisponibles);
+        lblCupoDisponibles.setBounds(505, 253, 160, 30);
+
+        lblImagenTotal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenTotal.png"))); // NOI18N
         lblImagenTotal.setEnabled(false);
         jPanel1.add(lblImagenTotal);
         lblImagenTotal.setBounds(680, 428, 70, 24);
 
+        lblImagenCosto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenCostop.png"))); // NOI18N
+        lblImagenCosto.setEnabled(false);
+        jPanel1.add(lblImagenCosto);
+        lblImagenCosto.setBounds(308, 253, 70, 24);
+
         lblImagenFecha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblImagenFecha.setIcon(new javax.swing.ImageIcon("C:\\Users\\Alonz0\\Downloads\\Nueva carpeta\\Fecha _.png")); // NOI18N
+        lblImagenFecha.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesVistaCursos/ImagenFecha.png"))); // NOI18N
         lblImagenFecha.setEnabled(false);
         jPanel1.add(lblImagenFecha);
         lblImagenFecha.setBounds(60, 253, 80, 24);
@@ -238,26 +259,19 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                lblNombrePersona.setText(personas.getNombre());
                tbIdPersona.setText(personas.getIdpersonas()+"");
                cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));
-               activa_boton(true,true,true,true,true,true,true);
+               activa_boton(true,true,true,true,true,true,true,true,true,true);
             }
             else{
             
             JOptionPane.showMessageDialog(null, "DNI NO ENCONTRADO");
-            activa_boton(false,false,false,false,false,false,false);
+            lblNombrePersona.setText("Alumno no encontrado");
+            activa_boton(false,false,false,false,false,false,false,false,false,false);
             
             cargarTablaMatriculas(0);          
         }      
         }        
     }//GEN-LAST:event_btnBuscarPersonaActionPerformed
-    public void activa_boton(boolean a1, boolean a2, boolean a3, boolean a4, boolean a5, boolean a6, boolean a7){
-        btnAgregarMatricula.setEnabled(a1);
-        dcFecha.setEnabled(a2);
-        lblImagenFecha.setEnabled(a3);
-        lblImagenTotal.setEnabled(a4);
-        btnLimpiar.setEnabled(a5);
-        tbSumaTotal.setEnabled(a6);
-        tbCostos.setEnabled(a7);
-    } 
+    
   
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         Limpiar();
@@ -280,9 +294,14 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             else if(dcFecha.getDate() == null)
             {
                 JOptionPane.showMessageDialog(null, "Seleccione una Fecha", "Error", JOptionPane.WARNING_MESSAGE);
-            }         
+            }
             else
-            {                
+            {    
+                listaCursos =(ArrayList)cursosData.obtenerCursos("","");
+                for(int i = 0; i < listaCursos.size(); i++)
+        {
+            
+        }
                  java.util.Date date = dcFecha.getDate();
                  long d = date.getTime();
                  java.sql.Date fecha =new java.sql.Date(d); 
@@ -290,7 +309,10 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                  double costo = cursos.getCosto();                    
                  Matriculas matricula = new Matriculas(personas,cursos,fecha,costo);   
                  matriculasData.guardarMatricula(matricula);
-                 cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));                
+                 cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));
+                 Matriculas m = matriculasData.buscarcantidad(Integer.parseInt(tbIdCursos.getText()));
+                 tbCupoDisponible.setText((cursos.getCupomaximo()- m.getCantidad())+"");
+                 botonesCursos();
             }
         }
         catch (Exception e) {
@@ -317,8 +339,12 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                         Matriculas matriculas = matriculasData.buscarMatriculaPorID(id);
             
                         matriculas.setActivo(false);
-                        matriculasData.actualizarMatricula(matriculas);
+                        matriculasData.actualizarMatricula(matriculas);                      
                         cargarTablaMatriculas(Integer.parseInt(tbIdPersona.getText()));
+                        
+                        Matriculas m = matriculasData.buscarcantidad(matriculas.getCursos().getIdcursos());                 
+                        tbCupoDisponible.setText((matriculas.getCursos().getCupomaximo()- m.getCantidad())+"");
+                        botonesCursos();
 
                     }
                     else
@@ -336,7 +362,8 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
     private void botonesCursos(){
         pnlBotonesCursos.removeAll();
         listaCursos =(ArrayList)cursosData.obtenerCursos("","");
-        
+                            
+           
         for(Cursos item:listaCursos)
         {
             JButton boton = new JButton();
@@ -353,9 +380,25 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                 public void actionPerformed(ActionEvent e) {
                     tbIdCursos.setText(boton.getName());
                     tbCostos.setText(item.getCosto()+"");
+                    Matriculas m = matriculasData.buscarcantidad(Integer.parseInt(boton.getName()));
+                    tbCupoDisponible.setText((item.getCupomaximo()- m.getCantidad())+"");
+                    
+                    if(item.getCupomaximo()<= m.getCantidad())
+                    {
+                        boton.setBackground(Color.red);
+                    }
                 }
                                                          }  
             );
+            Matriculas m = matriculasData.buscarcantidad(Integer.parseInt(boton.getName()));
+            if(item.getCupomaximo()<= m.getCantidad())
+            {
+                boton.setBackground(Color.red);
+            }
+            else
+            {
+                boton.setBackground(Color.GREEN);
+            }
             pnlBotonesCursos.add(boton);
             botonesCursos.add(boton);
             
@@ -401,6 +444,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         tMatriculas.getColumnModel().getColumn(4).setMaxWidth(30);  
        
     }
+    
     public void Limpiar(){
         
         tbBuscarPersona.setText("");
@@ -409,8 +453,9 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         tbSumaTotal.setText("");
         lblNombrePersona.setText("");
         cargarTablaMatriculas(0);
-        activa_boton(false,false,false,false,false,false,false);
-        dcFecha.setDateFormatString("");    
+        activa_boton(false,false,false,false,false,false,false,false,false,false);
+        dcFecha.setDate(null);
+        
     }
     public void soloLetras(JTextField a){
         a.addKeyListener(new KeyAdapter() {
@@ -461,6 +506,18 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
            }
         });      
     }
+    public void activa_boton(boolean a1, boolean a2, boolean a3, boolean a4, boolean a5, boolean a6, boolean a7,boolean a8,boolean a9,boolean a10){
+        btnAgregarMatricula.setEnabled(a1);
+        dcFecha.setEnabled(a2);
+        lblImagenFecha.setEnabled(a3);
+        lblImagenTotal.setEnabled(a4);
+        btnLimpiar.setEnabled(a5);
+        tbSumaTotal.setEnabled(a6);
+        tbCostos.setEnabled(a7);
+        lblImagenCosto.setEnabled(a8);
+        lblCupoDisponibles.setEnabled(a9);
+        tbCupoDisponible.setEnabled(a10);
+    } 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarMatricula;
     private javax.swing.JButton btnBuscarPersona;
@@ -469,6 +526,8 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblCupoDisponibles;
+    private javax.swing.JLabel lblImagenCosto;
     private javax.swing.JLabel lblImagenFecha;
     private javax.swing.JLabel lblImagenFondo;
     private javax.swing.JLabel lblImagenPizarra;
@@ -478,6 +537,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
     private javax.swing.JTable tMatriculas;
     private javax.swing.JTextField tbBuscarPersona;
     private javax.swing.JTextField tbCostos;
+    private javax.swing.JTextField tbCupoDisponible;
     private javax.swing.JTextField tbIdCursos;
     private javax.swing.JTextField tbIdPersona;
     private javax.swing.JTextField tbSumaTotal;

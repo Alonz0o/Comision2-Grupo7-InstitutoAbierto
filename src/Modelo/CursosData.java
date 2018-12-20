@@ -48,11 +48,6 @@ public class CursosData {
             
             ResultSet rs = statement.getGeneratedKeys();
             
-//            if (rs.next()) {
-//                matriculas.setIdmatriculas(rs.getInt(1));
-//            } else {
-//                System.out.println("No se pudo obtener el ID luego de insertar un curso");
-//            }
             statement.close();
     
         }
@@ -185,34 +180,6 @@ public class CursosData {
         }
         return Listacursos;      
     }    
-//        List<Cursos> Listacursos = new ArrayList<Cursos>();           
-//        try {
-//            String sql = "SELECT * FROM cursos c, personas p WHERE c.idpersonas = p.idpersonas;";
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            ResultSet resultSet = statement.executeQuery();
-//            Cursos cursos;
-//            while(resultSet.next()){
-//                cursos = new Cursos();
-//                cursos.setIdcursos(resultSet.getInt("idcursos"));
-//                cursos.setNombre(resultSet.getString("nombre"));
-//                cursos.setDescripcion(resultSet.getString("descripcion"));
-//                cursos.setCosto(resultSet.getDouble("costo"));
-//                cursos.setCupomaximo(resultSet.getInt("cupomaximo"));
-//                cursos.setActivo(resultSet.getBoolean("activo"));
-//                cursos.setActivo(resultSet.getBoolean("habilitado"));
-//                
-//                Personas p = buscarPersona(resultSet.getInt("idpersonas"));
-//                cursos.setPersonas(p);
-//                
-//                Listacursos.add(cursos);
-//                
-//            }      
-//            statement.close();
-//        } catch (SQLException ex) {
-//            System.out.println("Error al obtener los cursos: " + ex.getMessage());
-//        }
-//        return Listacursos;
-//    }
         public List<Cursos> obtenerCursosPorCupoMaximo(int cupo){
         List<Cursos> Listacursos = new ArrayList<Cursos>();           
         try {
@@ -242,5 +209,35 @@ public class CursosData {
             System.out.println("Error al obtener los cursos: " + ex.getMessage());
         }
         return Listacursos;
-    }       
+    } 
+        public List<Cursos> obtenerCursosPorCupo(int cupo){
+        List<Cursos> Listacursos = new ArrayList<Cursos>();           
+        try {
+            String sql = "SELECT * FROM cursos WHERE cupomaximo <= ?;";           
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, cupo);
+            ResultSet resultSet = statement.executeQuery();          
+            Cursos cursos;
+            while(resultSet.next()){
+                cursos = new Cursos();
+                cursos.setIdcursos(resultSet.getInt("idcursos"));
+                cursos.setNombre(resultSet.getString("nombre"));
+                cursos.setDescripcion(resultSet.getString("descripcion"));
+                cursos.setCosto(resultSet.getDouble("costo"));
+                cursos.setCupomaximo(resultSet.getInt("cupomaximo"));
+                cursos.setActivo(resultSet.getBoolean("activo"));
+                cursos.setActivo(resultSet.getBoolean("habilitado"));
+                
+                Personas p = buscarPersona(resultSet.getInt("idpersonas"));
+                cursos.setPersonas(p);
+                
+                Listacursos.add(cursos);
+                
+            }      
+            statement.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al obtener los cursos: " + ex.getMessage());
+        }
+        return Listacursos;
+    }  
 }

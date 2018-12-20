@@ -70,6 +70,7 @@ public class ModificarPersonas extends javax.swing.JInternalFrame {
         pnlDatos.add(tbCelularPersonaModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 260, 30));
 
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesModificarCursos/ImagenModificar.png"))); // NOI18N
+        btnModificar.setToolTipText("Modificar persona.");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
@@ -78,6 +79,7 @@ public class ModificarPersonas extends javax.swing.JInternalFrame {
         pnlDatos.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 30, 30));
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ImagenesModificarCursos/ImagenApagado.png"))); // NOI18N
+        btnSalir.setToolTipText("Salir.");
         btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalirActionPerformed(evt);
