@@ -315,6 +315,7 @@ public class VistaCursos extends javax.swing.JInternalFrame {
             htbBuscarPersona = new PlaceHolder(tbBuscarPersona, Color.GRAY, Color.BLACK, "Ingrese DNI del profesor", false, title, 13); 
             htbCosto = new PlaceHolder(tbCosto, Color.GRAY, Color.BLACK, "Ingrese costo del curso", false, title, 13); 
             htbCupo = new PlaceHolder(tbCupoMaximo, Color.GRAY, Color.BLACK, "Ingrese cupo maximo", false, title, 13);
+            JOptionPane.showConfirmDialog(null, "Curso registrado");
             }
             else{JOptionPane.showMessageDialog(null, "DNI NO ENCONTRADO");
                  activa_boton(false,false,false,false,false,false,false,false,false);
@@ -348,7 +349,8 @@ public class VistaCursos extends javax.swing.JInternalFrame {
                         Cursos cursos = cursosData.buscarCursosPorID(id);           
                         cursos.setActivo(false);
                         cursosData.modificarCurso(cursos);                   
-                        cargarTablaCursos("","");                       
+                        cargarTablaCursos("","");
+                        JOptionPane.showMessageDialog(null, "Curso Elminado");
                     }
                     else
                     {

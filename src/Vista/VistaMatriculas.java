@@ -188,7 +188,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         tbCupoDisponible.setEditable(false);
         tbCupoDisponible.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tbCupoDisponible.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tbCupoDisponible.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        tbCupoDisponible.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 255, 51), 1, true));
         tbCupoDisponible.setEnabled(false);
         jPanel1.add(tbCupoDisponible);
         tbCupoDisponible.setBounds(664, 250, 90, 30);
@@ -282,6 +282,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
         else{
         Personas personas = personasData.buscarPersonasPorId(Integer.parseInt(tbIdPersona.getText()));      
         Cursos cursos = cursosData.buscarCursosPorID(Integer.parseInt(tbIdCursos.getText()));
+        Matriculas mat = matriculasData.verificarAlumnoCurso(Integer.parseInt(tbIdPersona.getText()), Integer.parseInt(tbIdCursos.getText()));
         try {
             if(personas == null)
             {             
@@ -295,13 +296,10 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
             {
                 JOptionPane.showMessageDialog(null, "Seleccione una Fecha", "Error", JOptionPane.WARNING_MESSAGE);
             }
+            else if("0".equals(tbCupoDisponible.getText())){JOptionPane.showMessageDialog(null,"Curso LLENO");}
+            else if(mat != null){JOptionPane.showMessageDialog(null, "Alumno ya registrado", "Error", JOptionPane.WARNING_MESSAGE);}
             else
-            {    
-                listaCursos =(ArrayList)cursosData.obtenerCursos("","");
-                for(int i = 0; i < listaCursos.size(); i++)
-        {
-            
-        }
+            {                  
                  java.util.Date date = dcFecha.getDate();
                  long d = date.getTime();
                  java.sql.Date fecha =new java.sql.Date(d); 
@@ -313,6 +311,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                  Matriculas m = matriculasData.buscarcantidad(Integer.parseInt(tbIdCursos.getText()));
                  tbCupoDisponible.setText((cursos.getCupomaximo()- m.getCantidad())+"");
                  botonesCursos();
+                 JOptionPane.showMessageDialog(null, "Matricula guardada");
             }
         }
         catch (Exception e) {
@@ -345,6 +344,7 @@ public class VistaMatriculas extends javax.swing.JInternalFrame {
                         Matriculas m = matriculasData.buscarcantidad(matriculas.getCursos().getIdcursos());                 
                         tbCupoDisponible.setText((matriculas.getCursos().getCupomaximo()- m.getCantidad())+"");
                         botonesCursos();
+                        JOptionPane.showMessageDialog(null, "Matricula eliminada");
 
                     }
                     else

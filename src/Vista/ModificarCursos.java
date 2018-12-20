@@ -208,6 +208,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
                 Cursos curso = new Cursos(id,personas,nombre,descripcion,costo,cupomaximo,activo,habilitado);
                 cursosData.modificarCurso(curso);
                 
+                JOptionPane.showMessageDialog(null, "Curso modificado");
                 Escritorio.removeAll();
                 Escritorio.repaint();
                 VistaCursos vistacursos = new VistaCursos();
@@ -220,6 +221,7 @@ public class ModificarCursos extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
     }
+    
     private void btnBuscarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPersonaActionPerformed
         if(tbBuscarPersona.getText().equals("Ingrese DNI del profesor")){
             JOptionPane.showMessageDialog(null, "DNI Del profesor");

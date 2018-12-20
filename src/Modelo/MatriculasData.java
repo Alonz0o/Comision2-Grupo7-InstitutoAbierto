@@ -203,4 +203,34 @@ public class MatriculasData {
         }        
         return matriculas;
     }
+    
+    public Matriculas verificarAlumnoCurso(int idPer,int idCur ){
+        Matriculas matriculas = null;
+    try {           
+            String sql = "SELECT * FROM matriculas WHERE idpersonas = ? and idcursos = ? and activo = 1;";
+            PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            statement.setInt(1, idPer);
+            statement.setInt(2, idCur);
+            
+            ResultSet resultSet=statement.executeQuery();
+            
+            while(resultSet.next()){
+               matriculas = new Matriculas();
+               matriculas.setIdmatriculas(resultSet.getInt("idmatriculas"));
+               
+               matriculas.setFechaalta(resultSet.getDate("fechaalta"));
+               matriculas.setCosto(resultSet.getDouble("costo"));
+               
+               Personas p = buscarPersona(resultSet.getInt("idpersonas"));
+               matriculas.setPersonas(p);
+               
+               Cursos c = buscarCurso(resultSet.getInt("idcursos"));
+               matriculas.setCursos(c);             
+            }           
+            statement.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar una matricula: " + ex.getMessage());
+        }        
+        return matriculas;
+    }
 }

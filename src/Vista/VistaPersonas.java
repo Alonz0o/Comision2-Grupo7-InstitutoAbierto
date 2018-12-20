@@ -183,8 +183,10 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
         else if ("".equals(tbCelular.getText())|| "Ingrese celular".equals(tbCelular.getText())){
             
             JOptionPane.showMessageDialog(null, "Ingrese celular");    
-        }
+        }       
         else{
+            Personas p = personasData.buscarPersonasPorDni(Integer.parseInt(tbDni.getText()));
+            if(p==null){
             String nombre = tbNombre.getText();
             String dni = tbDni.getText();
             String celular = tbCelular.getText();         
@@ -199,6 +201,9 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
             htbNombre = new PlaceHolder(tbNombre, Color.GRAY, Color.BLACK, "Ingrese nombre", false, title, 13);
             htbDni = new PlaceHolder(tbDni, Color.GRAY, Color.BLACK, "Ingrese DNI", false, title, 13);
             htbCelular = new PlaceHolder(tbCelular, Color.GRAY, Color.BLACK, "Ingrese celular", false, title, 13); 
+            JOptionPane.showMessageDialog(null, "Persona agregada");
+            }
+            else{JOptionPane.showMessageDialog(null, "Persona ya registrada");}
         }      
     }//GEN-LAST:event_btnAgregarActionPerformed
 
@@ -245,6 +250,7 @@ public class VistaPersonas extends javax.swing.JInternalFrame {
                         personasData.actualizarPersonas(personas);
                         Limpiar();
                         cargarTablaPersonas("","");
+                        JOptionPane.showMessageDialog(null, "Persona eliminada");
                     }
                     else
                     {

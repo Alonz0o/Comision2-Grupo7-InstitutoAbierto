@@ -148,8 +148,9 @@ public class ModificarPersonas extends javax.swing.JInternalFrame {
             boolean habilitado = true;
             int id = Integer.parseInt(lblID.getText());     
 
-            Personas personas = new Personas(id,nombre,dni,celular,activo,habilitado);
+            Personas personas = new Personas(id,nombre,dni,celular,activo,habilitado);           
             personasData.actualizarPersonas(personas);
+            JOptionPane.showMessageDialog(null, "Persona modificada");
             Escritorio.removeAll();
             Escritorio.repaint();
             VistaPersonas vistaPersonas = new VistaPersonas();
